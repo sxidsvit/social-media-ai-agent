@@ -1,0 +1,12 @@
+import { Sandbox } from "@e2b/desktop";
+import fs from "node:fs";
+import { goToUrl, openBrowser } from "./lib/sandbox/browser";
+const d = await Sandbox.connect("ikbjclbou6ye5w1hoou0p", { apiKey: process.env.E2B_API_KEY!, timeoutMs: 300000 });
+let s = Date.now();
+console.log("restart:", await openBrowser(d, true), Date.now() - s, "ms");
+s = Date.now();
+console.log("goToUrl:", await goToUrl(d, "https://www.wikipedia.org"), Date.now() - s, "ms");
+s = Date.now();
+console.log("goToUrl 2:", await goToUrl(d, "https://www.instagram.com/accounts/login/"), Date.now() - s, "ms");
+console.log("procs:", (await d.commands.run("pgrep -c -f '[f]irefox-esr$' || true")).stdout.trim());
+fs.writeFileSync("/private/tmp/claude-501/-Users-rahulsanap-Documents-Projects-Nextjs-React-social-media-ai-agent/e3f1a214-cca8-44f3-9ddf-fe67e3d65dac/scratchpad/screen5.png", await d.screenshot());
